@@ -1,0 +1,34 @@
+# -----------------------------------------------
+# .gitignore — files Git should NEVER track
+# -----------------------------------------------
+
+# node_modules: installed packages (can be 100k+ files)
+# Anyone can recreate this by running: npm install
+node_modules/
+
+# .next: the build output folder Next.js generates
+# You never commit build output — you build it fresh each time
+.next/
+
+# Environment variables: secret keys, API tokens, passwords
+# NEVER commit these — they're private to your machine
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# npm debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# VSCode editor settings (optional — some teams share these)
+.vscode/
+
+# macOS system files
+.DS_Store
+
+# TypeScript build info
+*.tsbuildinfo
+next-env.d.ts
