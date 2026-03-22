@@ -1,0 +1,50 @@
+# GitHub Actions workflow — CI (Continuous Integration)
+#
+# What this does:
+# Every time you push code to GitHub (on any branch) or open a Pull Request,
+# GitHub automatically runs this workflow. If the build fails, you'll see a
+# red ✗ on your PR. If it passes, you'll see a green ✓.
+#
+# This is how professional teams catch broken code before it merges.
+
+name: CI
+
+# "on" defines WHEN this workflow runs
+on:
+  push:
+    branches: ["**"]   # every push, on any branch
+  pull_request:
+    branches: ["**"]   # every pull request, targeting any branch
+
+# A workflow has one or more "jobs"
+# Each job runs on a fresh virtual machine in GitHub's cloud
+jobs:
+  build:
+    name: Build & Lint
+    runs-on: ubuntu-latest   # use a fresh Ubuntu Linux VM
+
+    steps:
+      # Step 1: Check out your code onto the VM
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Node.js (needed to run npm)
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"   # cache node_modules between runs to speed things up
+
+      # Step 3: Install dependencies (npm install, but faster)
+      - name: Install dependencies
+        run: npm ci
+
+      # Step 4: Build the Next.js project
+      # If this fails (TypeScript error, missing import, etc.), the CI fails
+      - name: Build
+        run: npm run build
+
+      # Step 5: Run the linter
+      # ESLint checks your code for common mistakes and style issues
+      - name: Lint
+        run: npm run lint
